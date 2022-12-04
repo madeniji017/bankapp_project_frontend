@@ -36,7 +36,7 @@ pipeline {
             steps{
                 
                 script{
-                        sh "cd bankapp_project_frontend && sonar-scanner -Dsonar.projectKey=Frontend -Dsonar.host.url=https://http://127.0.0.1:9000 -Dsonar.login=1d11dbb031976e31a37aaf5a8493384dd98d41ea"
+                        sh "cd bankapp_project_frontend && sonar-scanner -Dsonar.projectKey=Frontend -Dsonar.host.url=http://127.0.0.1:9000 -Dsonar.login=1d11dbb031976e31a37aaf5a8493384dd98d41ea"
                 }
             }
         }
