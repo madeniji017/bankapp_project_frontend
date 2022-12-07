@@ -7,15 +7,15 @@ export default function Signup() {
     const [customer, setCustomer] = React.useState(
         {
             firstName: "",
-            middleName: "", 
+            midleName: "", 
             lastName: "",
             bvn: "",
-            dob: "",
+            dateOfBirth: "",
             phoneNumber: "", 
-            emailAddress: "", 
+            email: "", 
             password: "", 
             confirmPassword: "",
-            accountType: ""
+            accountTypes: ""
         }
     )
     console.log(customer)
@@ -45,11 +45,17 @@ export default function Signup() {
             setErrorMessage('Password is not strong')
           }}
     }
+
+    // const api = 'http://localhost:4000'
     
     function handleSubmit(event) {
         event.preventDefault()
         if(customer.password === customer.confirmPassword) {
-            // CustomerService.saveCustomer(customer)
+            // axios({
+            //     method: 'post',
+            //     url: {api}
+            // })
+            // // CustomerService.saveCustomer(customer)
             // .then((response) => {
             //   console.log(response);
             //   navigate("/userdash");
@@ -57,17 +63,23 @@ export default function Signup() {
             // .catch((error) => {
             //   console.log(error);
             // });
-            fetch('https://23bf-80-248-14-174.eu.ngrok.io/api/SignUp/CreateNewAccount', {
+            fetch('https://d453-102-134-112-18.eu.ngrok.io/api/SignUp/CreateNewAccount', {
                 method: 'POST',
                 headers: {
+                    Accept: 'application.json',
                     'Content-type': 'application/json',
                 },
                 body: JSON.stringify(customer),
                 })
                 .then((response) => response.json())
-                .then((json) => console.log(json));
+                .then((json) => console.log(json))
+                .then(localStorage.setItem("customer", JSON.stringify(customer) ))
+                .catch((error) => {
+                console.log(error)})
+                .then(navigate("/"))
         } else {
             setErrorMessage("Password does not match")
+
         }
     }
     
@@ -98,8 +110,8 @@ export default function Signup() {
                     type="text"
                     placeholder="Middlename"
                     className="form--input"
-                    name="middleName"
-                    value={customer.middleName}
+                    name="midleName"
+                    value={customer.midleName}
                     onChange={handleChange}
                     required
                 />
@@ -126,11 +138,11 @@ export default function Signup() {
                     type="date"
                     placeholder="D.O.B"
                     className="form--input"
-                    name="dob"
-                    value={customer.dob}
+                    name="dateOfBirth"
+                    value={customer.dateOfBirth}
                     onChange={handleChange}
                     required
-                />
+                />              
                 <input 
                     type="tel"
                     placeholder="0800-000-0000"
@@ -145,8 +157,8 @@ export default function Signup() {
                     type="email"
                     placeholder="Email Address"
                     className="form--input"
-                    name="emailAddress"
-                    value={customer.emailAddress}
+                    name="email"
+                    value={customer.email}
                     onChange={handleChange}
                     required
                 />
@@ -175,16 +187,16 @@ export default function Signup() {
                     required
                 />
                 <select className="form--input"
-                        id="accountType" 
-                        value={customer.accountType}
+                        id="accountTypes" 
+                        value={customer.accountTypes}
                         onChange={handleChange}
-                        name="accountType"
+                        name="accountTypes"
                         required
                     >
                         <option className="form--input" value="*">Account Type:</option>
-                        <option className="form--input" value="0">Savings</option>
-                        <option className="form--input" value="1">Current</option>
-                    </select>
+                        <option className="form--input" value="Savings">Savings</option>
+                        <option className="form--input" value="Current">Current</option>
+                </select>
                 <button 
                     className="form--button"
                 >

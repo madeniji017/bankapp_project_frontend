@@ -1,36 +1,47 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function Login() {
-    const [formData, setFormData] = React.useState(
+    const [customer, setCustomer] = React.useState(
         {
             email: "",
-            password: "",
-            accountType: ""
+            password: ""
         }
     )
-    console.log(formData.accountType)
-    
-    
+
+    const navigate = useNavigate();
     
     function handleChange(event) {
         const {name, value, type, checked} = event.target
-        setFormData(prevFormData => ({
-            ...prevFormData,
+        setCustomer(prevcustomer => ({
+            ...prevcustomer,
             [name]: type === "checkbox" ? checked : value
         }))
     }
     
     function handleSubmit(event) {
         event.preventDefault()
-        if(formData.password === formData.passwordConfirm) {
-            console.log("Successfully signed up")
-        } else {
-            console.log("Passwords do not match")
-            return
+
+            fetch('https://d453-102-134-112-18.eu.ngrok.io/api/Account/Login', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application.json',
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(customer),
+                })
+                .then((response) => response.json())
+                .then(localStorage.clear())
+                .then((json) =>  {
+                    localStorage.setItem("customer", JSON.stringify(json))
+                    window.location.href="/userdash"
+                })
+                .catch((error) => {
+                console.log(error)});
+                // window.location.href="/userdash"
+                // navigate("/userdash");
         }
-    }
-    
+
     return (
         <main>
             <article className="card">
@@ -39,38 +50,28 @@ export default function Login() {
                     <h3 style={{textAlign: 'center', color: '#672280'}}>USER LOGIN</h3>
                     <br />
                     <input 
-                        type="text"
+                        type="email"
                         placeholder="Email Address"
                         className="form--input"
                         name="email"
-                        value={formData.email}
+                        value={customer.email}
                         onChange={handleChange}
                     />
                     <input 
-                        type="text"
+                        type="password"
                         placeholder="Password"
                         className="form--input"
                         name="password"
-                        value={formData.password}
+                        value={customer.password}
                         onChange={handleChange}
                     />
-                    <select className="form--input"
-                        id="accountType" 
-                        value={formData.accountType}
-                        onChange={handleChange}
-                        name="accountType"
-                    >
-                        <option className="form--input" value="0">Account Type:</option>
-                        <option className="form--input" value="1">Current</option>
-                        <option className="form--input" value="2">Savings</option>
-                    </select>
-                    
-                </form>
-                <button 
+                    <button 
                         className="form--button"
                     >
                         LOGIN
-                </button>
+                    </button>
+                </form>
+
                 <div className="form--a">
 
                 <Link to="/"
