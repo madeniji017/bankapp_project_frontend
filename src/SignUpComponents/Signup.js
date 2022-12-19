@@ -7,7 +7,7 @@ export default function Signup() {
     const [customer, setCustomer] = React.useState(
         {
             firstName: "",
-            midleName: "", 
+            middleName: "", 
             lastName: "",
             bvn: "",
             dateOfBirth: "",
@@ -15,7 +15,7 @@ export default function Signup() {
             email: "", 
             password: "", 
             confirmPassword: "",
-            accountTypes: ""
+            acctType: ""
         }
     )
     console.log(customer)
@@ -42,7 +42,7 @@ export default function Signup() {
           })) {
             setErrorMessage('Password is strong')
           } else {
-            setErrorMessage('Password is not strong')
+            setErrorMessage('Password is not strong. Password must be 7 characters long, contain a special character, one uppercase letter and a figure/number.')
           }}
     }
 
@@ -51,36 +51,24 @@ export default function Signup() {
     function handleSubmit(event) {
         event.preventDefault()
         if(customer.password === customer.confirmPassword) {
-            // axios({
-            //     method: 'post',
-            //     url: {api}
-            // })
-            // // CustomerService.saveCustomer(customer)
-            // .then((response) => {
-            //   console.log(response);
-            //   navigate("/userdash");
-            // })
-            // .catch((error) => {
-            //   console.log(error);
-            // });
-            fetch('https://d453-102-134-112-18.eu.ngrok.io/api/SignUp/CreateNewAccount', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application.json',
-                    'Content-type': 'application/json',
-                },
-                body: JSON.stringify(customer),
-                })
-                .then((response) => response.json())
-                .then((json) => console.log(json))
-                .then(localStorage.setItem("customer", JSON.stringify(customer) ))
-                .catch((error) => {
-                console.log(error)})
-                .then(navigate("/"))
-        } else {
-            setErrorMessage("Password does not match")
-
-        }
+                fetch('http://localhost:8080/api/v1/create-user', {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(customer),
+                    })
+                    .then((response) => response.json())
+                    .then((json) => console.log(json))
+                    .then(localStorage.setItem("customer", JSON.stringify(customer) ))
+                    .catch((error) => {
+                    console.log(error)})
+                    .then(navigate("/"))
+            } else {
+                setErrorMessage("Password does not match")
+    
+            }
     }
     
     // React.useEffect(() => {
@@ -110,8 +98,8 @@ export default function Signup() {
                     type="text"
                     placeholder="Middlename"
                     className="form--input"
-                    name="midleName"
-                    value={customer.midleName}
+                    name="middleName"
+                    value={customer.middleName}
                     onChange={handleChange}
                     required
                 />
@@ -187,15 +175,15 @@ export default function Signup() {
                     required
                 />
                 <select className="form--input"
-                        id="accountTypes" 
-                        value={customer.accountTypes}
+                        id="acctType" 
+                        value={customer.acctType}
                         onChange={handleChange}
-                        name="accountTypes"
+                        name="acctType"
                         required
                     >
                         <option className="form--input" value="*">Account Type:</option>
-                        <option className="form--input" value="Savings">Savings</option>
-                        <option className="form--input" value="Current">Current</option>
+                        <option className="form--input" value="1">Savings</option>
+                        <option className="form--input" value="2">Current</option>
                 </select>
                 <button 
                     className="form--button"

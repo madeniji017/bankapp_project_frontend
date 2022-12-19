@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom"
+import Adv from "./Adv";
 // import { useNavigate } from "react-router-dom";
 // import CustomerService from "../services/CustomerService";
 // import Customer from "./Customer";
 
-export default function CustomerDashboard() {
-
+export default function CustomerDashboard(props) {
+    console.log(props)
     const [loading, setLoading] = useState(0);
     const [customers, setCustomers] = useState({});
     // useEffect(() => {
@@ -29,12 +31,18 @@ export default function CustomerDashboard() {
     // const details = JSON.parse(localStorage.getItem('customer'));
     useEffect(() => {
       if (localStorage.getItem("customer")) {
-        setCustomers(JSON.parse(localStorage.getItem("customer")));
+        const data = JSON.parse(localStorage.getItem("customer"));
+        if (data.accounts[0]) {
+          window.location.href="/customerupdate"} else {
+        setCustomers(data)}
+        console.log("console logged =====>>>>>", data)
         // setLoading(1)
         console.log(loading)
+      } else {
+        setLoading(1)
       }
     }, [])
-
+console.log(customers)
 
 
     return (
@@ -48,14 +56,21 @@ export default function CustomerDashboard() {
                     <h4 style={{textAlign: 'center', color: '#672280'}}>Welcome to Crud MFB</h4>
                     <h4 style={{textAlign: 'center', color: '#672280'}}>Name: {customers.firstName + " " + customers.lastName}</h4>
                     <h4 style={{textAlign: 'center', color: '#672280'}}>Email Address: {customers.email}</h4>
-                    <h4 style={{textAlign: 'center', color: '#672280'}}>Account number: {customers.accountGenerated
-}</h4>
-                    <h4 style={{textAlign: 'center', color: '#672280'}}>Account type: {
-                    customers.accountTypes}</h4>
+                    <h4 style={{textAlign: 'center', color: '#672280'}}>Account Number: {customers.accounts? customers.accounts[0].acctNumber : ""}</h4>
+                    <h4 style={{textAlign: 'center', color: '#672280'}}>Account Type: {customers.accounts? customers.accounts[0].acctType : ""}</h4>
+                    {/* <button onClick={window.location.href="/customerupdate"}
+                    style={{textDecoration: 'none', textAlign: 'center'}}>
+                    <b>Edit</b>
+                    </button> */}
+                    <Link to="/customerupdate"
+                    style={{textAlign: 'center', color: '#672280'}}>
+                    <button className="form--button">Edit</button>
+                    </Link>
                     <br />
                     <br /> 
                 </div>
             </article>
+            <Adv />
         </main>
     )
 }

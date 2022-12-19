@@ -1,3 +1,7 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 * {
   box-sizing: border-box;
 }
@@ -13,11 +17,15 @@ body {
 main {
   padding: 36px;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template: 1 / 1;
+  /* justify-content: center; */
+  /* align-items: center; */
   min-height: 100vh;
   flex-direction: column;
+  background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.99)), url("Logo.png");
+  background-size: 25px 25px;
   /*
   height: 100vh;
   display: flex;
@@ -25,6 +33,14 @@ main {
   align-items: center;
   */
 }
+
+/* .backgroundimage {
+  background-repeat: repeat;
+  height: 20px; 
+  opacity: 0.2; 
+  
+   width: 40px;
+}*/
 
 .header {
   display: flex;
@@ -59,7 +75,7 @@ main {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: auto ;
+  margin: auto 150px ;
   border: 1px solid lightgray;
   border-radius: 10px;
   height: auto;
@@ -69,6 +85,8 @@ main {
   gap: 17px;
   max-width: 300px;
   min-width: 50px;
+  background-color: white;
+  /* justify-self: left !important; */
 }
 
 p {

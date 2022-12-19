@@ -6,6 +6,8 @@ const UpdateCustomer = () => {
   const { accountnumber } = useParams();
   const navigate = useNavigate();
   const [customer, setCustomer] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
   });
 
@@ -14,24 +16,25 @@ const UpdateCustomer = () => {
     setCustomer({ ...customer, [e.target.name]: value });
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await CustomerService.getCustomerByAccountNumber(customer.email);
-  //       setCustomer(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const response = await CustomerService.getCustomerByAccountNumber(customer.accountnumber);
+//         setCustomer(response.data);
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     };
+//     fetchData();
+//   }, []);
 
   const updateCustomer = (e) => {
     e.preventDefault();
     console.log(customer);
     CustomerService.updateCustomer(customer)
       .then((response) => {
-        navigate("/userdash");
+        console.log(response)
+        navigate("/adminlist");
       })
       .catch((error) => {
         console.log(error);
@@ -52,7 +55,7 @@ const UpdateCustomer = () => {
                 <input
                     type="text"
                     name="firstName"
-                    value={employee.firstName}
+                    value={customer.firstName}
                     onChange={(e) => handleChange(e)}
                     className="h-10 w-96 border mt-2 px-2 py-2"></input>
                 </div>
@@ -63,11 +66,27 @@ const UpdateCustomer = () => {
                 <input
                     type="text"
                     name="lastName"
-                    value={employee.lastName}
+                    value={customer.lastName}
                     onChange={(e) => handleChange(e)}
                     className="h-10 w-96 border mt-2 px-2 py-2"></input>
                 </div> */}
                 <div>
+                <input
+                    className="form--input"
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={customer.firstName}
+                    onChange={(e) => handleChange(e)}
+                    ></input>
+                <input
+                    className="form--input"
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={customer.lastName}
+                    onChange={(e) => handleChange(e)}
+                    ></input>                                        
                 <input
                     className="form--input"
                     type="email"
@@ -85,7 +104,7 @@ const UpdateCustomer = () => {
                     Update
                 </button>
                 <button className="form--button"
-                    onClick={() => navigate("/userdash")}
+                    onClick={() => navigate("/adminlist")}
                     >
                     Cancel
                 </button>

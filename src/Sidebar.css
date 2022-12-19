@@ -39,9 +39,10 @@
   
   /* General sidebar styles */
   .bm-menu {
-    /* background: linear-gradient(90deg, #672280 1.18%, #A626D3 100%); */
+    background: linear-gradient(90deg, #863aa1 1.18%, #bd8ece 100%);
     padding: 2.5em 1.5em 0;
     font-size: 1.15em;
+    opacity: 0.95;
   }
   
   /* Morph shape necessary with bubble or elastic */

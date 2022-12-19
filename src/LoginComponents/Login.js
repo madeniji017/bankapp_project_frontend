@@ -1,5 +1,7 @@
 import React from "react"
 import { Link, useNavigate } from "react-router-dom"
+import Adv from "./Adv";
+import CustomerDashboard from "./CustomerDashboard"
 
 export default function Login() {
     const [customer, setCustomer] = React.useState(
@@ -7,9 +9,19 @@ export default function Login() {
             email: "",
             password: ""
         }
-    )
+    );
+    const [details, setDetails] = React.useState(null)
 
     const navigate = useNavigate();
+
+    function myFunction() {
+        // var x = customer.name;
+        if (customer.type === "password") {
+          customer.type = "text";
+        } else {
+          customer.type = "password";
+        }
+      }
     
     function handleChange(event) {
         const {name, value, type, checked} = event.target
@@ -22,11 +34,11 @@ export default function Login() {
     function handleSubmit(event) {
         event.preventDefault()
 
-            fetch('https://d453-102-134-112-18.eu.ngrok.io/api/Account/Login', {
+            fetch('http://localhost:8080/api/v1/login', {
                 method: 'POST',
                 headers: {
-                    Accept: 'application.json',
-                    'Content-type': 'application/json',
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(customer),
                 })
@@ -38,9 +50,38 @@ export default function Login() {
                 })
                 .catch((error) => {
                 console.log(error)});
-                // window.location.href="/userdash"
+                window.location.href="/"
                 // navigate("/userdash");
         }
+
+    // function handleSubmit(event) {
+    //     event.preventDefault()
+    //     start()
+    //     async function start() {
+    //         try {
+    //           const response = await fetch("http://localhost:8080/api/v1/login", {
+    //             method: 'POST',
+    //             headers: {
+    //                 Accept: 'application/json',
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify(customer),
+    //           })
+    //           const data = await response.json()
+    //           console.log(data)
+    //           localStorage.setItem("customer", JSON.stringify(data))
+    //           setDetails(data);
+    //           console.log(data)
+    //           console.log(details);
+    //           <CustomerDashboard item={details} />
+    //           console.log(details)
+    //           window.location.href="/userdash"
+    //         } catch (e) {
+    //           console.log("There was a problem fetching the breed list.")
+    //         }
+    //     }
+        
+    // }
 
     return (
         <main>
@@ -56,6 +97,7 @@ export default function Login() {
                         name="email"
                         value={customer.email}
                         onChange={handleChange}
+                        // onFocus={customer.value=''}
                     />
                     <input 
                         type="password"
@@ -64,7 +106,10 @@ export default function Login() {
                         name="password"
                         value={customer.password}
                         onChange={handleChange}
+                        // onFocus={customer.value=''}
+                        id="password"
                     />
+                    <input type="checkbox" onClick={myFunction()}/>Show Password
                     <button 
                         className="form--button"
                     >
@@ -90,6 +135,7 @@ export default function Login() {
                 </Link>
                 </div>
             </article>
+            <Adv />
         </main>
     )
 }
